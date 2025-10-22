@@ -2,29 +2,27 @@
 package main
 
 import (
-    "encoding/json"
-    "log"
-    "net/http"
-    "strings"
+	"log"
+	"net/http"
+	"strings"
 )
 
 
-// POST /api/checkout
-func postCheckout(res http.ResponseWriter, req *http.Request) {
-	if req.Method != http.MethodPost {
-        http.Error(res, "Method not allowed", http.StatusMethodNotAllowed)
-        return
-    }
+func main() {
+    
+    initDB();
 
-}
+    http.HandleFunc("/api/checkout", handleCheckout)
+    http.HandleFunc("/api/products", handleProducts)
 
+    http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
+		if strings.HasPrefix(req.URL.Path, "/api/") {
+			http.NotFound(res, req)
+			return
+		}
+		http.ServeFile(res, req, "./frontend/build/index.html")
+	})
 
-// GET /api/products
-func getProducts(res http.ResponseWriter, req *http.Request) {
-	if req.Method != http.MethodGet {
-        http.Error(res, "Method not allowed", http.StatusMethodNotAllowed)
-        return
-    }
-
-	
+    log.Println("Server running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
