@@ -1,0 +1,112 @@
+/* ProductCard.css */
+
+/* Card shell */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(20, 20, 30, 0.06);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(16, 24, 40, 0.04);
+}
+
+/* Hover / focus */
+.product-card:hover,
+.product-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(20, 20, 30, 0.10);
+  outline: none;
+}
+
+/* Make cards accessible via keyboard */
+.product-card:focus {
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12); /* subtle focus ring */
+}
+
+/* Image area: fixed aspect ratio 4:3 (you can change) */
+.product-card img {
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%; /* 4:3 aspect ratio */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: #f6f6f8;
+}
+
+/* Content padding */
+.product-card > h3,
+.product-card > p {
+  margin: 0;
+  padding: 0 1rem 0.75rem 1rem;
+}
+
+/* Title */
+.product-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.25;
+  margin-top: 0.5rem;
+}
+
+/* Price line */
+.product-card p {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.95rem;
+  color: #374151;
+  padding-bottom: 1rem;
+}
+
+/* Original price (struck-through) */
+.product-card .original-price {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  text-decoration: line-through;
+}
+
+/* Sale price */
+.product-card .sale-price {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Small badge for "Sold" or "Unavailable" */
+.product-card .sold-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ef4444; /* red */
+  box-shadow: 0 4px 10px rgba(16, 24, 40, 0.06);
+}
+
+/* wrapper to allow absolute badge positioning */
+.product-card { 
+    position: relative; 
+}
+
+/* Small responsive tweaks */
+@media (max-width: 640px) {
+  .product-card {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  .product-card h3 {
+    font-size: 1rem;
+  }
+}

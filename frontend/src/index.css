@@ -1,68 +1,166 @@
+index.css
+
+/* ===== Global Theme Variables ===== */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --color-bg: #fdfdfd;
+  --color-bg-alt: #f5f5f5;
+  --color-text: #222;
+  --color-text-light: #555;
+  --color-primary: #2b6cb0;
+  --color-primary-hover: #1e4e8c;
+  --color-accent: #ff7f50;
+  --color-border: #ddd;
+  --color-card-bg: #fff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 6px 18px rgba(0, 0, 0, 0.15);
+
+  --transition-fast: 0.15s ease-in-out;
+  --transition-medium: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* ===== Dark Mode Support ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0e0e0e;
+    --color-bg-alt: #181818;
+    --color-text: #e6e6e6;
+    --color-text-light: #aaa;
+    --color-primary: #63b3ed;
+    --color-primary-hover: #3182ce;
+    --color-accent: #ff9468;
+    --color-border: #333;
+    --color-card-bg: #1c1c1c;
+    --shadow-sm: 0 2px 6px rgba(255, 255, 255, 0.05);
+    --shadow-md: 0 4px 12px rgba(255, 255, 255, 0.07);
+    --shadow-lg: 0 6px 18px rgba(255, 255, 255, 0.1);
+  }
 }
 
-body {
+/* ===== Reset & Base Styling ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: background-color var(--transition-medium),
+              color var(--transition-medium);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ===== Link & Button Defaults ===== */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+  transform: translateY(-1px);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+} */
+
+button:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+/* ===== Cards / Containers ===== */
+.card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===== Smooth Page Transitions ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp var(--transition-medium) forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+/* ===== Utility Classes ===== */
+.text-center {
+  text-align: center;
+}
+
+.shadow-hover:hover {
+  box-shadow: var(--shadow-lg);
+  transition: box-shadow var(--transition-fast);
+}
+
+.rounded {
+  border-radius: var(--radius-md);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-light);
+}
+
+/* ===== Transitions for Interactive Components ===== */
+.transition {
+  transition: all var(--transition-medium);
+}
+
+.scale-hover:hover {
+  transform: scale(1.03);
+  transition: transform var(--transition-medium);
 }

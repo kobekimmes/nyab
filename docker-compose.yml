@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: nyabuser
+      POSTGRES_PASSWORD: nyabpass
+      POSTGRES_DB: nyabdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_USER: nyabuser
+      PG_PASSWORD: nyabpass
+      PG_DB: nyabdb
+      BE_PORT: 8080
+      BE_DOMAIN: 0.0.0.0
+      FE_BUILD_DIR: ../frontend/dist
+      FE_STATIC_HTML: ../frontend/dist/index.html
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  db-data:

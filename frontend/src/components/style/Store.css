@@ -1,0 +1,59 @@
+/* Store.css */
+
+.store-container {
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  min-height: 100vh;
+  background-color: #fafafa;
+  font-family: 'Inter', sans-serif;
+  color: #222;
+}
+
+.store-container h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #111;
+  max-width: 50rem;
+  line-height: 1.3;
+}
+
+/* Loading / Error messages */
+.store-status {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 3rem;
+  color: #666;
+}
+
+.store-status.error {
+  color: #c0392b;
+}
+
+
+/* Button hover / interaction hints if you add buttons later */
+/* button {
+  cursor: pointer;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  background-color: #111;
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+} */

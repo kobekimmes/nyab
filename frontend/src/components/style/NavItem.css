@@ -1,0 +1,84 @@
+/* NavItem.css */
+
+.nav-item {
+  list-style: none;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-item a,
+.nav-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item a:hover,
+.nav-item-button:hover {
+  color: #0070f3;
+  transform: translateY(-1px);
+}
+
+.nav-item i {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover i {
+  color: #0070f3;
+  transform: scale(1.1);
+}
+
+/* Hover text tooltip */
+.hover-text {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #111;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:hover .hover-text {
+  opacity: 1;
+  transform: translate(-50%, 1.5rem);
+}
+
+/* Accessibility for buttons and anchors */
+.nav-item a:focus,
+.nav-item-button:focus {
+  outline: 2px solid #0070f3;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Small screen tweaks */
+@media (max-width: 600px) {
+  .nav-item a,
+  .nav-item-button {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .hover-text {
+    bottom: -1.75rem;
+    font-size: 0.75rem;
+  }
+}

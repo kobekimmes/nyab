@@ -1,0 +1,48 @@
+/* ProductGallery.css */
+
+/* Container for all product cards */
+.product-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  justify-items: center;
+  align-items: start;
+  background-color: #fafafa;
+}
+
+/* When the gallery is empty (optional) */
+.product-gallery-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* Optional subtle animation for cards appearing */
+.product-card {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Small screen adjustments */
+@media (max-width: 640px) {
+  .product-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
