@@ -1,9 +1,9 @@
 
 
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../api.ts";
-import { Product, DataStatus } from "../types.ts";
-import ProductGallery from "./ProductGallery.tsx";
+import { getProducts } from "../api";
+import { Product, DataStatus } from "../types";
+import ProductGallery from "./ProductGallery";
 import "./style/Store.css"
 
 interface StoreProps {

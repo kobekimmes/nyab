@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import './App.css'
-import Store from './components/Store.tsx'
-import CheckoutCart from './components/CheckoutCart.tsx';
-import NavBar from './components/NavBar.tsx';
-import { Product } from './types.ts';
+import Store from './components/Store'
+import CheckoutCart from './components/CheckoutCart';
+import NavBar from './components/NavBar';
+import { Product } from './types';
 
 function App() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);

@@ -15,66 +15,67 @@ import (
     "github.com/joho/godotenv"
 )
 
-// Read environment variables
-var bePort string 
-var beDomain string 
-var feBuildDir string 
-var feStaticHtml string 
-
-
 func main() {
+    // Load .env
+    _ = godotenv.Load()
 
-    err := godotenv.Load()
-    if err != nil {
-        log.Println("No .env file found, failed to initialize database connection")
-    }
-
+    // Handle CLI migration commands
     args := os.Args[1:]
-
-    // Run migration CLI if performing manual migrations
     if len(args) > 0 {
-        if args[0] == "migrate" {
-            fmt.Println("----- Running migrations UP -----")
+        switch args[0] {
+        case "migrate":
+            log.Println("----- Running migrations UP -----")
             migrations.RunMigrationsUp()
             return
-        }
-        if args[0] == "rollback" {
-            fmt.Println("----- Running migrations DOWN -----")
+        case "rollback":
+            log.Println("----- Running migrations DOWN -----")
             migrations.RunMigrationsDown()
             return
         }
-        return
     }
-    
-    // Open connection to database
+
+    // Database
     db.DbInit()
     defer db.Db.Close()
 
-    bePort = os.Getenv("BE_PORT")
-    beDomain = os.Getenv("BE_DOMAIN")
-    feBuildDir = os.Getenv("FE_BUILD_DIR")
-    feStaticHtml = os.Getenv("FE_STATIC_HTML")
-
     mux := http.NewServeMux()
 
-    // API route handling
+    // API routes
     mux.Handle("/api/checkout", middleware.Limit(middleware.CORS(http.HandlerFunc(api.HandleCheckout))))
     mux.Handle("/api/products", middleware.Limit(middleware.CORS(http.HandlerFunc(api.HandleProducts))))
 
-    // Static asset serving
-    fs := http.FileServer(http.Dir(feBuildDir))
-    mux.Handle("/static/", http.StripPrefix("/static/", fs))
-
-    
-    // Catch-all for frontend routing
-    mux.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-        if strings.HasPrefix(req.URL.Path, "/api/") {
-            http.NotFound(res, req)
-            return
+    // Check if we want Go to serve frontend
+    if os.Getenv("SERVE_FRONTEND") == "true" {
+        feBuildDir := os.Getenv("FE_BUILD_DIR")
+        if feBuildDir == "" {
+            feBuildDir = "./frontend/dist"
         }
-        http.ServeFile(res, req, feStaticHtml)
-    })
+        feStaticHtml := os.Getenv("FE_STATIC_HTML")
+        if feStaticHtml == "" {
+            feStaticHtml = fmt.Sprintf("%s/index.html", feBuildDir)
+        }
 
-    log.Printf("Server running on %s:%s\n", beDomain, bePort)
+        // Static assets
+        fs := http.FileServer(http.Dir(feBuildDir))
+        mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+        // Catch-all for frontend routes
+        mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+            if strings.HasPrefix(r.URL.Path, "/api/") {
+                http.NotFound(w, r)
+                return
+            }
+            http.ServeFile(w, r, feStaticHtml)
+        })
+
+        log.Println("Frontend serving enabled")
+    }
+
+    // Start server
+    bePort := os.Getenv("BE_PORT")
+    if bePort == "" {
+        bePort = "8080"
+    }
+    log.Printf("Server running on port %s\n", bePort)
     log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", bePort), middleware.Logger(mux)))
 }
