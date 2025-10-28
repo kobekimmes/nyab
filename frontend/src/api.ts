@@ -3,7 +3,7 @@
 import { Product, Order } from "./types";
 import { CheckoutRequest, CheckoutResponse } from "./types";
 
-const BACKEND_DOMAIN = import.meta.env.BE_DOMAIN;
+const BACKEND_DOMAIN = import.meta.env.VITE_BE_DOMAIN;
 
 export async function getProducts(): Promise<Product[]> {
     const res = await fetch(`${BACKEND_DOMAIN}/api/products`);
